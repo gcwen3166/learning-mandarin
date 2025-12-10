@@ -4,6 +4,7 @@ import { lessonsData } from '../data';
 import Flashcard from './Flashcard';
 import AudioButton from './AudioButton';
 import '../App.css';
+import { supabase } from '../supabaseClient';
 
 function StudyPage() {
   const { id } = useParams();
@@ -17,6 +18,45 @@ function StudyPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewQueue, setReviewQueue] = useState([]); // The list of cards currently active
   const [starredIds, setStarredIds] = useState([]);   // List of IDs that are starred
+
+  const markLessonComplete = async () => {
+    // 1. Check User
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      alert("Please log in to save progress!");
+      return;
+    }
+
+    // 2. Mark Lesson as Done in DB
+    const { error: lessonError } = await supabase
+      .from('user_lessons')
+      .upsert({ user_id: user.id, lesson_id: lesson.id });
+
+    if (lessonError) console.error('Error marking lesson:', lessonError);
+
+    // 3. Add Cards to Anki Deck
+    // We map your lesson words to the database format
+    const newCards = lesson.words.map(word => ({
+      user_id: user.id,
+      word_id: word.id,
+      lesson_id: lesson.id,
+      // Default Anki Settings:
+      interval: 0,
+      ease_factor: 2.5,
+      next_review: new Date().toISOString() // Due Immediately
+    }));
+
+    // "ignoreDuplicates" ensures we don't reset progress if they click it twice
+    const { error: cardError } = await supabase
+      .from('user_flashcards')
+      // We added 'lesson_id' to the conflict check
+      .upsert(newCards, { onConflict: 'user_id, lesson_id, word_id', ignoreDuplicates: true });
+
+    if (!cardError) {
+      alert("Lesson Complete! Cards added to your daily review.");
+      // Optional: Redirect to Dashboard
+    }
+  };
 
   // Quiz States
   const [quizInput, setQuizInput] = useState("");
@@ -231,6 +271,11 @@ function StudyPage() {
                 </div>
               )
             })}
+            <div className="finish-section">
+              <button className="finish-btn" onClick={markLessonComplete}>
+                ✅ Mark Lesson as Done & Add Cards
+              </button>
+            </div>
           </div>
         )}
 

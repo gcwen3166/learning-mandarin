@@ -748,3 +748,259 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   color: #555;
   font-weight: 500;
 }
+
+/* --- AUTH / LOGIN PAGE --- */
+.auth-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.auth-form input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.toggle-text {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.toggle-text span {
+  color: #ff6b6b;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.toggle-text span:hover {
+  text-decoration: underline;
+}
+
+/* --- DASHBOARD STATS --- */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-stats {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-badge {
+  background-color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: 2px solid #eee;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.login-nudge {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #ff6b6b;
+  font-weight: bold;
+  text-decoration: none;
+  border: 2px solid #ff6b6b;
+  padding: 8px 15px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.login-nudge:hover {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+/* --- DASHBOARD --- */
+.streak-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px; /* More space below */
+}
+
+.streak-circle {
+  width: 170px; /* Bigger circle */
+  height: 170px;
+  border-radius: 50%;
+  
+  /* Gradient Border Trick */
+  background: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3); /* Softer, larger shadow */
+
+  margin-bottom: 40px;
+  animation: float 3s ease-in-out infinite; /* Gentle float animation */
+  
+}
+
+.streak-circle::before {
+  content: "";
+  position: absolute;
+  inset: -6px; /* Thickness of the border */
+  border-radius: 50%;
+  padding: 6px;
+  background: linear-gradient(45deg, #ff6b6b, #ffa502); 
+  -webkit-mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+.fire-icon { 
+  font-size: 2.5rem; 
+  margin-bottom: 0px;
+  filter: drop-shadow(0 2px 4px rgba(255, 165, 2, 0.4));
+}
+.streak-number { 
+  font-size: 2rem; 
+  font-weight: 800; /* Extra bold */
+  color: #333; 
+  line-height: 1; 
+  margin: 0;
+}
+.streak-label { 
+  font-size: 0.9rem; 
+  color: #888; 
+  text-transform: uppercase; 
+  letter-spacing: 1px;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Weekly Dots */
+.week-progress { display: flex; gap: 10px; }
+.day-dot {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #ddd;
+  color: #666;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.day-dot.active {
+  background: #ff6b6b;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Heatmap Customization */
+.heatmap-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 30px;
+}
+
+/* React Calendar Heatmap Overrides */
+.react-calendar-heatmap text { font-size: 10px; fill: #aaa; }
+.react-calendar-heatmap .color-empty { fill: #eee; }
+.react-calendar-heatmap .color-scale-1 { fill: #ff6b6b; }
+
+/* Dashboard Buttons */
+.dashboard-actions { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
+.review-deck-btn { 
+  background-color: #2ed573; 
+  color: white; 
+  padding: 15px; 
+  border-radius: 10px; 
+  border: none; 
+  font-size: 1.1rem; 
+  font-weight: bold; 
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+}
+
+/* Finish Button in Reader */
+.finish-section {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.finish-btn {
+  background-color: #2ed573; /* Green */
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(46, 213, 115, 0.3);
+  transition: transform 0.2s;
+}
+
+.finish-btn:hover {
+  transform: scale(1.05);
+  background-color: #26af61;
+}
+
+/* Completed Lesson Card */
+.lesson-card.completed {
+  border-left: 8px solid #2ed573; /* Change red border to green */
+  background-color: #f0fff4; /* Slight green tint */
+}
+
+.check-mark {
+  color: #2ed573;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

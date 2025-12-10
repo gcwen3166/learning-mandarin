@@ -9,7 +9,7 @@ function VideoLibrary() {
 
   return (
     <div className="app-container">
-      <h1>Video Library</h1>
+      <h1 className="main-title">Video Library</h1>
       <div className="video-grid">
         {videos.map((video) => (
           <div key={video.id} className="video-card">
