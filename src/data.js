@@ -942,4 +942,187 @@ export const lessonsData = [
       }
     ]
   },
+  {
+    id: 6,
+    title: "Lesson 6: 言果课",
+    description: "",
+    videoUrl: "https://www.youtube.com/embed/ApqFjTxdJ18",
+    content: [
+      // 1. New Header: "Lesson"
+      { 
+        type: "section-header", 
+        english: "Lesson" 
+      },
+
+      // --- TITLE ---
+      { 
+        type: "title", 
+        english: "",
+        segments: [
+          { char: "6", py: "" }, 
+          { char: " ", py: "" }, 
+          { char: "言", py: "yán" }, 
+          { char: "果", py: "guǒ" }, 
+          { char: "课", py: "kè" }
+        ]
+      },
+
+      // --- MAIN POEM ---
+      { 
+        type: "ruby-line", 
+        english: "", 
+        segments: [
+          { char: "金", py: "jīn" }, { char: "失", py: "shī" }, { char: "铁", py: "tiě" }, { char: "，", py: "" },
+          { char: "水", py: "shuǐ" }, { char: "先", py: "xiān" }, { char: "洗", py: "xǐ" }
+        ]
+      },
+      { 
+        type: "ruby-line", 
+        english: "", 
+        segments: [
+          { char: "言", py: "yán" }, { char: "果", py: "guǒ" }, { char: "课", py: "kè" },{ char: "，", py: "" },
+          { char: "手", py: "shǒu" }, { char: "是", py: "shì" }, { char: "提", py: "tí" }
+        ]
+      },
+
+      { type: "break" }, 
+
+      // 2. New Header: "Review Phrases & Sentences"
+      { 
+        type: "section-header", 
+        english: "Review Phrases & Sentences" 
+      },
+
+      // --- VOCAB GROUPS (NO PINYIN) ---
+      // Notice: py is set to "" for all characters here
+      { 
+        type: "ruby-line", 
+        english: "",
+        segments: [
+          { char: "洗手", py: "" }, { char: "，", py: "" },
+          { char: "水手", py: "" }, { char: "，", py: "" },
+          { char: "水果", py: "" }, { char: "，", py: "" },
+          { char: "手足", py: "" }, { char: "，", py: "" },
+          { char: "果品", py: "" }, { char: "，", py: "" }
+        ]
+      },
+      { 
+        type: "ruby-line", 
+        english: "", 
+        segments: [
+          { char: "正言", py: "" }, { char: "，", py: "" },
+          { char: "铁车", py: "" }, { char: "，", py: "" },
+          { char: "提水", py: "" }, { char: "，", py: "" },
+          { char: "提包", py: "" }, { char: "，", py: "" },
+          { char: "生水", py: "" }, { char: "，", py: "" }
+        ]
+      },
+      { 
+        type: "ruby-line", 
+        english: "", 
+        segments: [
+          { char: "我有水果，我有米，我先洗水果", py: "" }
+        ]
+      },
+      // ... (Repeat for other review lines, setting py: "" for all of them) ...
+      { type: "break" },
+
+      // --- CONNECT & COMPARE SECTION ---
+      { 
+        type: "section-header", 
+        english: "Connect & Compare" 
+      },
+      {
+        type: "compare-grid",
+        groups: [
+          ["失", "先"],          // Group of 2
+          ["果", "里", "男"], 
+          ["果", "国"], 
+          ["失", "是"], 
+          ["言", "眼"], 
+        ]
+      },
+
+      { type: "break" },
+
+      // --- REVIEW LESSONS SECTION ---
+      { 
+        type: "section-header", 
+        english: "Review Lessons" 
+      },
+      {
+        type: "info-box", // <--- NEW TYPE
+        text: "Please review Lesson 3 and Lesson 5."
+      }
+      
+    ],
+    
+    // Words array is correctly placed inside the object! (This part is GOOD)
+    words: [
+      { 
+        id: 1, hanzi: "洗手", pinyin: "xǐ shǒu", pinyinNum: "xi3 shou3", english: "To wash hands",
+        exampleHanzi: "吃饭前要洗手。", 
+        examplePinyin: "Chī fàn qián yào xǐ shǒu.", 
+        exampleEnglish: "You need to wash your hands before eating."
+      },
+      { 
+        id: 2, hanzi: "水手", pinyin: "shuǐ shǒu", pinyinNum: "shui3 shou3", english: "Sailor",
+        exampleHanzi: "他想成为一名水手。", 
+        examplePinyin: "Tā xiǎng chéng wéi yī míng shuǐ shǒu.", 
+        exampleEnglish: "He wants to become a sailor."
+      },
+      { 
+        id: 3, 
+        hanzi: "水果", 
+        pinyin: "shuǐ guǒ", 
+        pinyinNum: "shui3 guo3", 
+        english: "Fruit",
+        exampleHanzi: "多吃水果对身体好。", 
+        examplePinyin: "Duō chī shuǐ guǒ duì shēn tǐ hǎo.", 
+        exampleEnglish: "Eating more fruit is good for your health."
+      },
+      { 
+        id: 4, hanzi: "手足", pinyin: "shǒu zú", pinyinNum: "shou3 zu2", english: "Brothers / Siblings (literally: hands and feet)",
+        exampleHanzi: "他们情同手足。", 
+        examplePinyin: "Tā men qíng tóng shǒu zú.", 
+        exampleEnglish: "They are as close as brothers."
+      },
+      { 
+        id: 5, hanzi: "果品", pinyin: "guǒ pǐn", pinyinNum: "guo3 pin3", english: "Fruit / Fruit products",
+        exampleHanzi: "这家店卖各种果品。", 
+        examplePinyin: "Zhè jiā diàn mài gè zhǒng guǒ pǐn.", 
+        exampleEnglish: "This shop sells various fruit products."
+      },
+      { 
+        id: 6, hanzi: "正言", pinyin: "zhèng yán", pinyinNum: "zheng4 yan2", english: "Formal speech / To speak sternly", 
+        exampleHanzi: "他正言厉色地批评了大家。", 
+        examplePinyin: "Tā zhèng yán lì sè de pī píng le dà jiā.", 
+        exampleEnglish: "He criticized everyone with stern words and a harsh expression."
+      },
+      { 
+        id: 7, hanzi: "铁车", pinyin: "tiě chē", pinyinNum: "tie3 che1", english: "Iron cart / Iron vehicle",
+        exampleHanzi: "那个铁车很重。", 
+        examplePinyin: "Nà ge tiě chē hěn zhòng.", 
+        exampleEnglish: "That iron cart is very heavy."
+      },
+      { 
+        id: 8, hanzi: "提水", pinyin: "tí shuǐ", pinyinNum: "ti2 shui3", english: "To carry water / To lift water",
+        exampleHanzi: "他去井边提水。", 
+        examplePinyin: "Tā qù jǐng biān tí shuǐ.", 
+        exampleEnglish: "He went to the well to draw water."
+      },
+      { 
+        id: 9, hanzi: "提包", pinyin: "tí bāo", pinyinNum: "ti2 bao1", english: "Handbag / Tote bag",
+        exampleHanzi: "她买了一个新提包。", 
+        examplePinyin: "Tā mǎi le yī gè xīn tí bāo.", 
+        exampleEnglish: "She bought a new handbag."
+      },
+      { 
+        id: 10, hanzi: "生水", pinyin: "shēng shuǐ", pinyinNum: "sheng1 shui3", english: "Unboiled water / Raw water",
+        exampleHanzi: "不要喝生水。", 
+        examplePinyin: "Bù yào hē shēng shuǐ.", 
+        exampleEnglish: "Do not drink unboiled water."
+      }
+    ]
+  },
 ];
