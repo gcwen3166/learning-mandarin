@@ -888,14 +888,14 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   filter: drop-shadow(0 2px 4px rgba(255, 165, 2, 0.4));
 }
 .streak-number { 
-  font-size: 2rem; 
+  font-size: 2.2rem; 
   font-weight: 800; /* Extra bold */
   color: #333; 
   line-height: 1; 
   margin: 0;
 }
 .streak-label { 
-  font-size: 0.9rem; 
+  font-size: 1rem; 
   color: #888; 
   text-transform: uppercase; 
   letter-spacing: 1px;
@@ -913,14 +913,14 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
 /* Weekly Dots */
 .week-progress { display: flex; gap: 10px; }
 .day-dot {
-  width: 30px; height: 30px;
+  width: 40px; height: 40px;
   border-radius: 50%;
   background: #ddd;
   color: #666;
   display: flex; 
   align-items: center; 
   justify-content: center;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 .day-dot.active {
@@ -928,24 +928,154 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   color: white;
   transform: scale(1.1);
 }
+.week-progress {
+  gap: 12px;
+  margin-bottom: -40px;
+}
 
 /* Heatmap Customization */
 .heatmap-card {
-  background: white;
+  background: #eef2f3;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 16px;
   width: 100%;
-  max-width: 600px;
+  max-width: 900px;
   margin-bottom: 30px;
+  color: #1f2937;
+  box-shadow: none;
+}
+
+.heatmap-header + .react-calendar-heatmap {
+  margin-top: 30px;
+}
+
+.heatmap-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  color: #1f2937;
+  min-height: 40px;
+}
+
+.heatmap-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 18px;
+  color: #1f2937;
+  font-size: 1rem;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 820px;
+}
+
+.stat-item {
+  white-space: nowrap;
+}
+
+.stat-accent {
+  font-weight: 700;
+}
+
+.gear-btn {
+  background: #f3f4f6;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.heatmap-gear {
+  position: relative;
+}
+
+.theme-menu {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 20;
+}
+
+.theme-menu button {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #1f2937;
+  text-align: left;
+}
+
+.theme-menu button.active {
+  background: #ff6b6b;
+  color: #fff;
+  border-color: #ff6b6b;
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.heatmap-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-btn {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: default;
+  color: #1f2937;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* React Calendar Heatmap Overrides */
-.react-calendar-heatmap text { font-size: 10px; fill: #aaa; }
-.react-calendar-heatmap .color-empty { fill: #eee; }
-.react-calendar-heatmap .color-scale-1 { fill: #ff6b6b; }
+.react-calendar-heatmap text { font-size: 10px; fill: #6b7280; }
+.react-calendar-heatmap .color-empty { fill: #c4c7cc; }
+.react-calendar-heatmap .color-empty-past { fill: #c4c7cc; }
+.react-calendar-heatmap .color-empty-future { fill: #e2e4e8; }
+.react-calendar-heatmap .color-level-1.theme-flame { fill: #ffc7c7; }
+.react-calendar-heatmap .color-level-2.theme-flame { fill: #ff9a9a; }
+.react-calendar-heatmap .color-level-3.theme-flame { fill: #ff7373; }
+.react-calendar-heatmap .color-level-4.theme-flame { fill: #ff3b3b; }
+.react-calendar-heatmap .color-level-1.theme-ice { fill: #cbe7ff; }
+.react-calendar-heatmap .color-level-2.theme-ice { fill: #9bd2ff; }
+.react-calendar-heatmap .color-level-3.theme-ice { fill: #5dade2; }
+.react-calendar-heatmap .color-level-4.theme-ice { fill: #2f8bcc; }
+
+.stat-accent.theme-flame { color: #ff6b6b; }
+.stat-accent.theme-ice { color: #5dade2; }
+.stat-accent.theme-olive { color: #a3b674; }
+.stat-accent.theme-lime { color: #7ed957; }
+.stat-accent.theme-magenta { color: #d66bff; }
 
 /* Dashboard Buttons */
-.dashboard-actions { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
+.dashboard-actions { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 300px; align-items: center; }
 .review-deck-btn { 
   background-color: #2ed573; 
   color: white; 
@@ -954,6 +1084,14 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   border: none; 
   font-size: 1.1rem; 
   font-weight: bold; 
+}
+.dashboard-actions.below-week {
+  margin-top: 10px;
+}
+.review-deck-btn.primary-hero {
+  margin-top: 18px;
+  padding: 14px 26px;
+  font-size: 1rem;
 }
 
 @keyframes pulse {
@@ -1003,4 +1141,82 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   justify-content: space-between;
   align-items: center;
   width: 100%;
+}
+
+/* Professor Page */
+.bio-hero {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 40px auto;
+  padding: 20px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ff6b6b;
+  font-weight: bold;
+  margin: 0;
+}
+
+.bio-title {
+  font-size: 2.5rem;
+  margin: 10px 0 10px 0;
+  color: #333;
+}
+
+.bio-subtitle {
+  color: #666;
+  margin: 0 auto 20px auto;
+  font-size: 1.1rem;
+}
+
+.bio-cta-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.review-deck-btn.ghost {
+  background: white;
+  color: #333;
+  border: 2px solid #eee;
+}
+
+.bio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px 40px 20px;
+  box-sizing: border-box;
+}
+
+.bio-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f2f2f2;
+}
+
+.bio-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.bio-card p {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.bio-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #555;
+  line-height: 1.6;
 }

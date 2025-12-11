@@ -11,6 +11,7 @@ import VideoLibrary from './components/VideoLibrary';
 import LessonsPage from './components/LessonsPage'; // Import the new page
 
 import Dashboard from './components/Dashboard';
+import ProfessorPage from './components/ProfessorPage';
 
 function App() {
   useEffect(() => {
@@ -36,6 +37,7 @@ function App() {
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/">Lessons</Link> {/* Changed Home to be the Lessons list */}
           <Link to="/videos">Videos</Link>
+          <Link to="/professor">Professor</Link>
           <Link to="/login">Login</Link>
         </div>
       </nav>
@@ -45,6 +47,7 @@ function App() {
         <Route path="/" element={<LessonsPage />} /> {/* Home is now Lessons */}
         <Route path="/videos" element={<VideoLibrary />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/professor" element={<ProfessorPage />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
 
