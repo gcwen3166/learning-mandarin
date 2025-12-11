@@ -65,6 +65,18 @@ button {
 .nav-links a:hover {
   color: #ff6b6b;
 }
+.nav-links .logout-btn {
+  margin-left: 10px;
+  padding: 6px 10px;
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #333;
+  cursor: pointer;
+}
+.nav-links .logout-btn:hover {
+  background: #f3f4f6;
+}
 
 /* =========================================
    3. LESSONS PAGE (MENU)
@@ -556,7 +568,7 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   height: 10px;
   background-color: #e0e0e0;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin: 0 auto 10px auto;
   overflow: hidden;
 }
 
@@ -658,6 +670,7 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   text-align: center;
   border-top: 8px solid #2ed573;
+  color: #1f2937;
 }
 
 .finished-buttons {
@@ -1052,6 +1065,24 @@ rt { font-size: 0.5em; color: #666; font-weight: normal; transform: translateY(-
   cursor: default;
   color: #1f2937;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.button-container .nav-btn {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin: 0 4px;
+  background: #f9fafb;
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+}
+
+.button-container .nav-btn .srs-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 2px;
 }
 
 /* React Calendar Heatmap Overrides */

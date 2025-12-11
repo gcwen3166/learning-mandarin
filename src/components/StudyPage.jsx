@@ -36,23 +36,33 @@ function StudyPage() {
 
     // 3. Add Cards to Anki Deck
     // We map your lesson words to the database format
-    const newCards = lesson.words.map(word => ({
-      user_id: user.id,
-      word_id: word.id,
-      lesson_id: lesson.id,
-      // Default Anki Settings:
-      interval: 0,
-      ease_factor: 2.5,
-      next_review: new Date().toISOString() // Due Immediately
-    }));
+    // Use a composite word key to avoid collisions across lessons that reuse word ids
+    const newCards = lesson.words.map(word => {
+      // Use a composite to keep IDs unique across lessons
+      const compositeWordId = Number(lesson.id) * 1000 + Number(word.id);
+      return {
+        user_id: user.id,
+        word_id: compositeWordId,
+        lesson_id: lesson.id,
+        // Default Anki Settings:
+        interval: 0,
+        ease_factor: 2.5,
+        reps: 0,
+        lapses: 0,
+        next_review: new Date().toISOString() // Due Immediately
+      };
+    });
 
     // "ignoreDuplicates" ensures we don't reset progress if they click it twice
     const { error: cardError } = await supabase
       .from('user_flashcards')
       // We added 'lesson_id' to the conflict check
-      .upsert(newCards, { onConflict: 'user_id, lesson_id, word_id', ignoreDuplicates: true });
+      .upsert(newCards, { onConflict: 'user_id, word_id' });
 
-    if (!cardError) {
+    if (cardError) {
+      console.error('Error adding cards:', cardError);
+      alert("There was an issue adding cards to your daily review.");
+    } else {
       alert("Lesson Complete! Cards added to your daily review.");
       // Optional: Redirect to Dashboard
     }

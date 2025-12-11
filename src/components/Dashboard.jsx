@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
+import { Link } from 'react-router-dom';
 import { addDays, format, startOfDay, startOfWeek, subDays, isSameDay, parseISO } from 'date-fns';
 
 const THEME_NAMES = ['flame', 'ice'];
@@ -330,6 +331,12 @@ export default function Dashboard() {
             <span className={`stat-accent theme-${heatmapTheme}`}>{stats.currentStreak} days</span>
           </div>
         </div>
+      </div>
+
+      <div className="dashboard-actions">
+        <Link to="/study">
+          <button className="review-deck-btn">Start Daily Review</button>
+        </Link>
       </div>
     </div>
   );
