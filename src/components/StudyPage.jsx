@@ -18,6 +18,7 @@ function StudyPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewQueue, setReviewQueue] = useState([]); // The list of cards currently active
   const [starredIds, setStarredIds] = useState([]);   // List of IDs that are starred
+  const [script, setScript] = useState('simplified'); // 'simplified' | 'traditional'
 
   const markLessonComplete = async () => {
     // 1. Check User
@@ -37,31 +38,42 @@ function StudyPage() {
     // 3. Add Cards to Anki Deck
     // We map your lesson words to the database format
     // Use a composite word key to avoid collisions across lessons that reuse word ids
-    const newCards = lesson.words.map(word => {
-      // Use a composite to keep IDs unique across lessons
-      const compositeWordId = Number(lesson.id) * 1000 + Number(word.id);
-      return {
-        user_id: user.id,
-        word_id: compositeWordId,
-        lesson_id: lesson.id,
-        // Default Anki Settings:
-        interval: 0,
-        ease_factor: 2.5,
-        reps: 0,
-        lapses: 0,
-        next_review: new Date().toISOString() // Due Immediately
-      };
-    });
+    const baseCards = lesson.words.map(word => ({
+      user_id: user.id,
+      word_id: word.id,
+      lesson_id: lesson.id,
+      interval: 0,
+      ease_factor: 2.5,
+      reps: 0,
+      lapses: 0,
+      streak: 0, // satisfies existing column if NOT NULL
+      next_review: new Date().toISOString()
+    }));
+
+    const translateCards = baseCards.map(card => ({ ...card, deck: 'translate', card_type: 'flip' }));
+    const pinyinCards = lesson.words.map(word => ({
+      user_id: user.id,
+      word_id: word.id,
+      lesson_id: lesson.id,
+      deck: 'pinyin',
+      card_type: 'pinyin',
+      interval: 0,
+      ease_factor: 2.5,
+      reps: 0,
+      lapses: 0,
+      next_review: new Date().toISOString()
+    }));
+    const newCards = [...translateCards, ...pinyinCards];
 
     // "ignoreDuplicates" ensures we don't reset progress if they click it twice
     const { error: cardError } = await supabase
       .from('user_flashcards')
-      // We added 'lesson_id' to the conflict check
-      .upsert(newCards, { onConflict: 'user_id, word_id' });
+      // Use lesson_id + word_id to avoid collisions when word ids repeat across lessons
+      .upsert(newCards, { onConflict: 'user_id, deck, lesson_id, word_id' });
 
     if (cardError) {
       console.error('Error adding cards:', cardError);
-      alert("There was an issue adding cards to your daily review.");
+      alert(`There was an issue adding cards to your daily review:\n${cardError.message || cardError.details || 'Unknown error'}`);
     } else {
       alert("Lesson Complete! Cards added to your daily review.");
       // Optional: Redirect to Dashboard
@@ -80,6 +92,11 @@ function StudyPage() {
   const progress = reviewQueue.length > 0 
     ? ((currentIndex + 1) / reviewQueue.length) * 100 
     : 0;
+
+  const renderText = (simplified, traditional) => {
+    if (script === 'traditional' && traditional) return traditional;
+    return simplified;
+  };
 
   // Resets for navigation
   const resetQuiz = () => {
@@ -105,11 +122,20 @@ function StudyPage() {
   // Load Lesson Data
   useEffect(() => {
     const foundLesson = lessonsData.find(l => l.id === parseInt(id));
-    setLesson(foundLesson);
+    const normalizedLesson = foundLesson
+      ? {
+          ...foundLesson,
+          words: (foundLesson.words || []).map((w) => ({
+            ...w,
+            traditionalHanzi: w.traditionalHanzi || w.traditional || w.hanzi
+          }))
+        }
+      : null;
+    setLesson(normalizedLesson);
     
     // Initialize queue with ALL words
-    if (foundLesson && foundLesson.words) {
-      setReviewQueue(foundLesson.words);
+    if (normalizedLesson && normalizedLesson.words) {
+      setReviewQueue(normalizedLesson.words);
     }
     
     // Reset everything
@@ -197,6 +223,23 @@ function StudyPage() {
           <button className={mode === "quiz" ? "active" : ""} onClick={() => { setMode("quiz"); restartFullReview(); }}>✍️ Quiz</button>
         </div>
 
+        {mode === "reading" && (
+          <div className="script-toggle">
+            <button
+              className={script === 'simplified' ? 'active' : ''}
+              onClick={() => setScript('simplified')}
+            >
+              Simplified
+            </button>
+            <button
+              className={script === 'traditional' ? 'active' : ''}
+              onClick={() => setScript('traditional')}
+            >
+              Traditional
+            </button>
+          </div>
+        )}
+
         {/* --- 1. READER MODE --- */}
         {/* --- 1. READER MODE --- */}
         {mode === "reading" && (
@@ -247,7 +290,7 @@ function StudyPage() {
               }
 
               if (line.type === "ruby-line" || line.type === "title") {
-                const fullHanzi = line.segments.map(s => s.char).join('');
+                const fullHanzi = line.segments.map(s => renderText(s.char, s.traditional)).join('');
                 
                 return (
                   <div 
@@ -259,7 +302,7 @@ function StudyPage() {
                     <div className="text-content">
                       {line.segments.map((segment, i) => (
                         <ruby key={i}>
-                          {segment.char}
+                          {renderText(segment.char, segment.traditional)}
                           <rt>{segment.py}</rt>
                         </ruby>
                       ))}
@@ -274,10 +317,10 @@ function StudyPage() {
                 <div key={index} className={`text-line ${line.type} with-audio`} title={line.english}>
                   <div className="text-content">
                     <div className="pinyin-line">{line.pinyin}</div>
-                    <div className="hanzi-line">{line.hanzi}</div>
+                    <div className="hanzi-line">{renderText(line.hanzi, line.traditionalHanzi)}</div>
                   </div>
                   {/* Add the AudioButton */}
-                  <AudioButton text={line.hanzi} size="small" />
+                  <AudioButton text={renderText(line.hanzi, line.traditionalHanzi)} size="small" />
                 </div>
               )
             })}
@@ -309,9 +352,9 @@ function StudyPage() {
             {lesson.words.map((word) => (
               <div key={word.id} className="vocab-item">
                 <div className="vocab-char">
-                  {word.hanzi}
+                  {renderText(word.hanzi, word.traditionalHanzi || word.traditional)}
                   {/* ADD THIS LINE: */}
-                  <AudioButton text={word.hanzi} size="small" />
+                  <AudioButton text={renderText(word.hanzi, word.traditionalHanzi || word.traditional)} size="small" />
                 </div>
                 <div className="vocab-pinyin">{word.pinyin}</div>
                 <div className="vocab-english">{word.english}</div>

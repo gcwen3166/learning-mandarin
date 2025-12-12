@@ -165,7 +165,7 @@ export default function Dashboard() {
     studyLogs.forEach((log) => {
       const key = normalizeToDayKey(log.date || log.study_date);
       if (!key) return;
-      const count = typeof log.count === 'number' ? log.count : 1;
+      const count = typeof log.count === 'number' ? log.count : 0;
       dayMap.set(key, (dayMap.get(key) || 0) + count);
     });
 
@@ -213,7 +213,7 @@ export default function Dashboard() {
     studyLogs.forEach((log) => {
       const key = normalizeToDayKey(log.date || log.study_date);
       if (!key) return;
-      const count = typeof log.count === 'number' ? log.count : 1;
+      const count = typeof log.count === 'number' ? log.count : 0;
       dayMap.set(key, (dayMap.get(key) || 0) + count);
     });
 
@@ -229,6 +229,13 @@ export default function Dashboard() {
       };
     });
   }, [studyLogs]);
+
+  const titleForValue = (value) => {
+    if (!value) return '';
+    const count = typeof value.count === 'number' ? value.count : 0;
+    const dateLabel = value.date ? format(parseISO(value.date), 'EEEE, MMMM d, yyyy') : '';
+    return `${count} cards reviewed on ${dateLabel}`;
+  };
 
   if (loading) return <div className="app-container">Loading Dashboard...</div>;
 
@@ -297,6 +304,7 @@ export default function Dashboard() {
           endDate={new Date()}
           values={heatmapValues}
           showMonthLabels={false}
+          titleForValue={titleForValue}
           classForValue={(value) => {
             if (!value) return 'color-empty';
             const count = typeof value.count === 'number' ? value.count : 1;

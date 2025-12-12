@@ -13,6 +13,7 @@ import LessonsPage from './components/LessonsPage'; // Import the new page
 import Dashboard from './components/Dashboard';
 import ProfessorPage from './components/ProfessorPage';
 import DailyReview from './components/DailyReview';
+import Missions from './components/Missions';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -37,6 +38,20 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const syncLoginMission = async () => {
+      if (!user) return;
+      await supabase.from('user_missions').upsert({
+        user_id: user.id,
+        mission_code: 'login_once',
+        progress: 1,
+        completed: true,
+        completed_at: new Date().toISOString()
+      }, { onConflict: 'user_id,mission_code' });
+    };
+    syncLoginMission();
+  }, [user]);
+
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -56,6 +71,7 @@ function App() {
           <Link to="/videos">Videos</Link>
           <Link to="/professor">Professor</Link>
           <Link to="/study">Study</Link>
+          {user && <Link to="/missions">Missions</Link>}
           {!user && <Link to="/login">Login</Link>}
           {user && (
             <button className="logout-btn" onClick={handleSignOut}>
@@ -72,6 +88,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/professor" element={<ProfessorPage />} />
         <Route path="/study" element={<DailyReview />} />
+        <Route path="/missions" element={<Missions />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
 
